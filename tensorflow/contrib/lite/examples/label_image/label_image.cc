@@ -148,6 +148,14 @@ void RunInference(Settings* s) {
   int wanted_width = dims->data[2];
   int wanted_channels = dims->data[3];
 
+#if 1
+  size_t length = image_width * image_height * image_channels;
+  uint8_t* inbuff = interpreter->typed_tensor<uint8_t>(input);
+  for (size_t ii = 0; ii < length; ii++)
+  {
+    inbuff[ii] = *(in + ii);
+  }
+#else
   switch (interpreter->tensor(input)->type) {
     case kTfLiteFloat32:
       s->input_floating = true;
@@ -165,6 +173,7 @@ void RunInference(Settings* s) {
                  << interpreter->tensor(input)->type << " yet";
       exit(-1);
   }
+#endif
 
   struct timeval start_time, stop_time;
   gettimeofday(&start_time, NULL);
