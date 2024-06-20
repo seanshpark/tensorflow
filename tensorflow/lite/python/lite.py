@@ -276,7 +276,10 @@ class TFLiteConverterBase(object):
       return False
 
     # TODO(b/150489014): Disable functionality for now.
-    return False
+    # return False
+
+    # Allow for unknown shape
+    return True
 
   def _get_base_converter_args(self):
     """Returns the base converter args.
